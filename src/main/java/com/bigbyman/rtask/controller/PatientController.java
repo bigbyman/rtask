@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/patient")
 public class PatientController {
@@ -49,13 +49,24 @@ public class PatientController {
         if (this.patientRepository.findByPesel(patient.getPesel()).isPresent()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Patient of pesel " + patient.getPesel() + " already exists");
+        }
+        return this.patientRepository.save(patient);
+    }
 
+    @PutMapping
+    public Patient putPatient(@RequestBody Patient patient) {
+        if (this.patientRepository.findByPesel(patient.getPesel()).isPresent()) {
+            if (!this.patientRepository.findByPesel(patient.getPesel()).get().getId().equals(patient.getId())) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_ACCEPTABLE, "Patient of pesel " + patient.getPesel() + " already exists");
+            }
         }
         return this.patientRepository.save(patient);
     }
 
     @DeleteMapping
     public void deletePatient(@RequestParam("id") Long id) {
+        //TODO
         try {
             this.patientRepository.deleteById(id);
         } catch (ConstraintViolationException cve) {
