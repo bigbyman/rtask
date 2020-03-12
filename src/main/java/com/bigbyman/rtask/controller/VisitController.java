@@ -3,7 +3,6 @@ package com.bigbyman.rtask.controller;
 import com.bigbyman.rtask.model.Visit;
 import com.bigbyman.rtask.repository.PatientRepository;
 import com.bigbyman.rtask.repository.VisitRepository;
-import com.bigbyman.rtask.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +17,6 @@ import java.util.List;
 public class VisitController {
     @Autowired
     private VisitRepository visitRepository;
-
-    @Autowired
-    private VisitService visitService;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -54,6 +50,10 @@ public class VisitController {
 
     @GetMapping("/byDate")
     public List<Visit> getVisitsByDate(@RequestParam("date") String date) {
+        if (date.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Date must be specified");
+        }
         return this.visitRepository.findAllByLocalDateLike(LocalDate.parse(date));
     }
 
