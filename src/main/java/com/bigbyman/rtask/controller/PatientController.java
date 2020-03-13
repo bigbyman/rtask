@@ -31,7 +31,7 @@ public class PatientController {
                                                  @RequestParam("lastName") String lastName,
                                                  @RequestParam("pesel") String pesel) {
 
-        return this.patientRepository.findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWith(name, lastName, pesel);
+        return this.patientRepository.findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWithAllIgnoreCase(name, lastName, pesel);
     }
 
     @GetMapping("/{id}")

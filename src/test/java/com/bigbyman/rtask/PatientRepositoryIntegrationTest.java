@@ -40,7 +40,7 @@ public class PatientRepositoryIntegrationTest {
         testEntityManager.flush();
 
         List<Patient> list = patientRepository
-                .findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWith(patient.getName().substring(0, 3),
+                .findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWithAllIgnoreCase(patient.getName().substring(0, 3),
                         patient.getLastName().substring(0, 3),
                         patient.getPesel().substring(0, 6));
 

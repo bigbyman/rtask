@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface PatientRepository extends BaseRepository<Patient> {
     List<Patient> findAll();
     Optional<Patient> findByPesel(String pesel);
-    List<Patient> findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWith(String name, String lastName, String pesel);
+    List<Patient> findAllByNameStartingWithAndLastNameStartingWithAndPeselStartingWithAllIgnoreCase(String name, String lastName, String pesel);
 }
