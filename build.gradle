@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.bigbyman'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '1.8'
 
 configurations {
 	developmentOnly
@@ -26,12 +26,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-	implementation 'junit:junit:4.12'
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
+
 
 test {
 	useJUnitPlatform()
+	afterTest { desc, result ->
+		logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+	}
 }
+
