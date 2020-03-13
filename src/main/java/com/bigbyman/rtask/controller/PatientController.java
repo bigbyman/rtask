@@ -4,6 +4,7 @@ import com.bigbyman.rtask.model.Patient;
 import com.bigbyman.rtask.repository.PatientRepository;
 import com.bigbyman.rtask.repository.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -66,10 +67,10 @@ public class PatientController {
 
     @DeleteMapping
     public void deletePatient(@RequestParam("id") Long id) {
-        //TODO
         try {
             this.patientRepository.deleteById(id);
-        } catch (ConstraintViolationException cve) {
+        } catch (DataIntegrityViolationException ex) {
+
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Patient has visits");
         }
